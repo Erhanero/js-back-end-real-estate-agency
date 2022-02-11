@@ -1,16 +1,21 @@
 const express = require("express");
 const hbs = require("express-handlebars");
+const { PORT } = require("./constants");
+const routeController = require("./routes");
+
 const app = express();
 
-app.get("/", (req, res) => {
-    res.render("home")
-});
+
 
 app.engine("hbs", hbs.create({
     extname: ".hbs"
 }).engine);
 app.set("view engine", "hbs");
+app.set("views", "./src/views");
+
+app.use(express.static("src"));
 
 
+app.use(routeController);
 
-app.listen(5000, () => console.log("Application is running on http://localhost:5000"));
+app.listen(PORT, () => console.log(`Application is running on http://localhost:${PORT}`));
