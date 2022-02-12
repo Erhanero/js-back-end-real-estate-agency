@@ -6,10 +6,21 @@ route.get("/register", (req, res) => {
 });
 
 route.post("/register", async (req, res) => {
-    const { name, username, password, repeatPasswod } = req.body;
-    await authService.register({ name, username, password });
 
-    res.redirect("/login")
+    const { name, username, password, repeatPassword } = req.body;
+    if (password != repeatPassword) {
+        res.locals.error = "Password's don't matched!";
+        return res.render("register");
+    }
+
+    try {
+        await authService.register({ name, username, password });
+        res.redirect("/");
+    } catch (err) {
+        console.log(err.message)
+    }
+
+    res.redirect("/login");
 })
 
 module.exports = route;
