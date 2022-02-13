@@ -30,6 +30,10 @@ const houseSchema = new mongoose.Schema({
     availablePieces: {
         type: Number,
         required: true,
+    },
+    owner: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
     }
 });
 

@@ -1,11 +1,11 @@
-const route = require("express").Router();
+const router = require("express").Router();
 const authService = require("../services/auth");
 
-route.get("/register", (req, res) => {
+router.get("/register", (req, res) => {
     res.render("register", { title: "Register Page" });
 });
 
-route.post("/register", async (req, res) => {
+router.post("/register", async (req, res) => {
 
     const { name, username, password, repeatPassword } = req.body;
     if (password != repeatPassword) {
@@ -23,4 +23,4 @@ route.post("/register", async (req, res) => {
     res.redirect("/login");
 })
 
-module.exports = route;
+module.exports = router;

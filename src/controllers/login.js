@@ -1,11 +1,11 @@
-const route = require("express").Router();
+const router = require("express").Router();
 const authService = require("../services/auth");
 
-route.get("/login", (req, res) => {
+router.get("/login", (req, res) => {
     res.render("login", { title: "Login Page" });
 });
 
-route.post("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
     const { username, password } = req.body;
     try {
         const token = await authService.login(username, password);
@@ -15,6 +15,12 @@ route.post("/login", async (req, res) => {
         console.log(err.message);
 
     }
+});
+
+router.get("/logout", (req, res) => {
+    res.clearCookie("app-token");
+
+    res.redirect("/");
 })
 
-module.exports = route;
+module.exports = router;
