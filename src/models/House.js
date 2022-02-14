@@ -31,11 +31,17 @@ const houseSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    tenants: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "User"
+        }
+    ],
     owner: {
         type: mongoose.Types.ObjectId,
         ref: "User",
     }
-});
+}, { timestamps: true });
 
 const House = mongoose.model("House", houseSchema);
 

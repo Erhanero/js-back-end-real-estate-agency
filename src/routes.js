@@ -1,19 +1,19 @@
-const route = require("express").Router();
-
-const router = require("./controllers/home");
+const router = require("express").Router();
 const homeController = require("./controllers/home");
 const loginController = require("./controllers/login");
 const registerController = require("./controllers/register");
 const createController = require("./controllers/create");
 const housingController = require("./controllers/housing");
+const detailsController = require("./controllers/details");
 
-route.use(homeController);
-route.use(loginController);
+router.use(homeController);
+router.use(loginController);
 router.use(registerController);
 router.use(createController);
 router.use(housingController);
+router.use(detailsController);
 
-route.use("*", (req, res) => {
+router.use("*", (req, res) => {
     res.render("404");
 })
-module.exports = route;
+module.exports = router;

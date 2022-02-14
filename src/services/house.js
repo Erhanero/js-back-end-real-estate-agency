@@ -10,6 +10,22 @@ async function create(house) {
 
 }
 
+async function getLastThree() {
+    return await House.find().sort({ createdAt: -1 }).limit(3).lean();
+}
+
+async function getAll() {
+    return await House.find().lean();
+}
+
+async function getById(id) {
+    return await House.findById(id).lean();
+
+}
+
 module.exports = {
-    create
+    create,
+    getLastThree,
+    getAll,
+    getById
 }
