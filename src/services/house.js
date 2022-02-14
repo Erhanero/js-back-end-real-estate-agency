@@ -31,10 +31,20 @@ async function rentHouse(houseId, userId) {
 
 }
 
+async function deleteById(id) {
+    return await House.findByIdAndDelete(id)
+}
+
+async function updateById(id, data) {
+    return await House.findByIdAndUpdate(id, data)
+}
+
 module.exports = {
     create,
     getLastThree,
     getAll,
     getById,
-    rentHouse
+    rentHouse,
+    deleteById,
+    updateById
 }

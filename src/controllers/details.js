@@ -7,10 +7,12 @@ router.get("/details/:houseId", async (req, res) => {
         const isOwner = house.owner == req.user?._id;
         const isRented = house.tenants.some(t => t._id == req.user?._id);
         const isAvailable = house.availablePieces > 0;
+        console.log(isAvailable)
         const tenants = await house.getTenants();
+
         house = house.toObject();
 
-        res.render("details", { house, isOwner, tenants, isRented });
+        res.render("details", { house, isOwner, tenants, isRented, isAvailable });
     } catch (err) {
         console.log(err.message)
     }
@@ -27,6 +29,16 @@ router.get("/rent/:houseId", async (req, res) => {
         console.log(err.message)
     }
 
+});
+
+router.get("/delete/:houseId", async (req, res) => {
+    try {
+        await houseService.deleteById(req.params.houseId);
+        res.redirect("/housing");
+
+    } catch (err) {
+        console.log(err.message)
+    }
 })
 
 module.exports = router;

@@ -29,7 +29,7 @@
                     <!-- Only for registered user and creator of the housing offer-->
                     {{#if isOwner}}
                     <a href="/edit/{{house._id}}" class="edit">Edit</a>
-                    <a href="/remove/{{house._id}}" class="remove">Delete</a>
+                    <a href="/delete/{{house._id}}" class="remove">Delete</a>
 
                     <!-- logged in user with available pieces-->
                     {{else}}
@@ -42,10 +42,10 @@
                         housing</a>
                     {{/if}}
                     {{/if}}
-                    {{#if isAvailable}}
+                    {{#unless isAvailable}}
                     <!-- logged in user with no available pieces-->
                     <p class="no-housing">No Housing Available!</p>
-                    {{/if}}
+                    {{/unless}}
                 </div>
                 {{/if}}
             </div>
