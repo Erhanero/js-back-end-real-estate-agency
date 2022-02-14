@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const authService = require("../services/auth");
+const { isAuth, isGuest } = require("../middlewares/authMiddleware")
 
-router.get("/login", (req, res) => {
+router.get("/login", isGuest, (req, res) => {
     res.render("login", { title: "Login Page" });
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", isGuest, async (req, res) => {
     const { username, password } = req.body;
     try {
         const token = await authService.login(username, password);
@@ -17,7 +18,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", isAuth, (req, res) => {
     res.clearCookie("app-token");
 
     res.redirect("/");

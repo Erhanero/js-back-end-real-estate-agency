@@ -28,7 +28,15 @@ function isAuth(req, res, next) {
         res.redirect("/login")
     }
 }
+
+function isGuest(req, res, next) {
+    if (!req.user) {
+        return next();
+    }
+    res.redirect('/')
+}
 module.exports = {
     authMiddleware,
-    isAuth
+    isAuth,
+    isGuest
 };

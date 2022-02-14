@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const authService = require("../services/auth");
+const { isGuest } = require("../middlewares/authMiddleware")
 
-router.get("/register", (req, res) => {
+router.get("/register", isGuest, (req, res) => {
     res.render("register", { title: "Register Page" });
 });
 
