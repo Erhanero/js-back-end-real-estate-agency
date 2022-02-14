@@ -43,6 +43,10 @@ const houseSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+houseSchema.method("getTenants", async function () {
+    return await this.tenants.map(t => t.name).join(", ");
+});
+
 const House = mongoose.model("House", houseSchema);
 
 module.exports = House;

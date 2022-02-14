@@ -19,7 +19,15 @@ async function getAll() {
 }
 
 async function getById(id) {
-    return await House.findById(id).lean();
+    return await House.findById(id).populate("tenants");
+
+}
+
+async function rentHouse(houseId, userId) {
+    const house = await House.findById(houseId);
+    house.availablePieces -= 1;
+    house.tenants.push(userId);
+    await house.save();
 
 }
 
@@ -27,5 +35,6 @@ module.exports = {
     create,
     getLastThree,
     getAll,
-    getById
+    getById,
+    rentHouse
 }

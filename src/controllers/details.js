@@ -1,14 +1,32 @@
 const router = require("express").Router();
-const { getById } = require("../services/house");
+const houseService = require("../services/house");
 
 router.get("/details/:houseId", async (req, res) => {
-    const house = await getById(req.params.houseId);
-    if (!req.user) {
-        return res.render("details", { house })
+    try {
+        let house = await houseService.getById(req.params.houseId);
+        const isOwner = house.owner == req.user?._id;
+        const isRented = house.tenants.some(t => t._id == req.user?._id);
+        const isAvailable = house.availablePieces > 0;
+        const tenants = await house.getTenants();
+        house = house.toObject();
+
+        res.render("details", { house, isOwner, tenants, isRented });
+    } catch (err) {
+        console.log(err.message)
     }
 
-    const isOwner = house.owner == req.user._id;
-    res.render("details", { house, isOwner });
 });
+
+router.get("/rent/:houseId", async (req, res) => {
+    try {
+        await houseService.rentHouse(req.params.houseId, req.user._id);
+
+        res.redirect(`/details/${req.params.houseId}`);
+
+    } catch (err) {
+        console.log(err.message)
+    }
+
+})
 
 module.exports = router;
