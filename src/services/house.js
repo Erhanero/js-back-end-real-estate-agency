@@ -39,6 +39,12 @@ async function updateById(id, data) {
     return await House.findByIdAndUpdate(id, data)
 }
 
+async function search(text) {
+    return await House.find({ type: { $regex: text, $options: "i" } }).lean();
+    // find( { "name" : { $regex : /Andrew/i } } )
+
+}
+
 module.exports = {
     create,
     getLastThree,
@@ -46,5 +52,6 @@ module.exports = {
     getById,
     rentHouse,
     deleteById,
-    updateById
+    updateById,
+    search
 }

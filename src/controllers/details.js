@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const houseService = require("../services/house");
+const isOwner = require("../middlewares/housingMiddleware");
 
 router.get("/details/:houseId", async (req, res) => {
     try {
@@ -7,7 +8,6 @@ router.get("/details/:houseId", async (req, res) => {
         const isOwner = house.owner == req.user?._id;
         const isRented = house.tenants.some(t => t._id == req.user?._id);
         const isAvailable = house.availablePieces > 0;
-        console.log(isAvailable)
         const tenants = await house.getTenants();
 
         house = house.toObject();
@@ -19,7 +19,7 @@ router.get("/details/:houseId", async (req, res) => {
 
 });
 
-router.get("/rent/:houseId", async (req, res) => {
+router.get("/rent/:houseId", isOwner, async (req, res) => {
     try {
         await houseService.rentHouse(req.params.houseId, req.user._id);
 
@@ -31,14 +31,6 @@ router.get("/rent/:houseId", async (req, res) => {
 
 });
 
-router.get("/delete/:houseId", async (req, res) => {
-    try {
-        await houseService.deleteById(req.params.houseId);
-        res.redirect("/housing");
 
-    } catch (err) {
-        console.log(err.message)
-    }
-})
 
 module.exports = router;

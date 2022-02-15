@@ -33,7 +33,7 @@ function isGuest(req, res, next) {
     if (!req.user) {
         return next();
     }
-    res.redirect('/')
+    res.redirect('/404')
 }
 module.exports = {
     authMiddleware,

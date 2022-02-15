@@ -7,21 +7,19 @@ router.get("/register", isGuest, (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-
-    const { name, username, password, repeatPassword } = req.body;
-    if (password != repeatPassword) {
-        res.locals.error = "Password's don't matched!";
-        return res.render("register");
-    }
-
     try {
+        const { name, username, password, repeatPassword } = req.body;
+        if (password != repeatPassword) {
+            throw new Error("Password's don't matched!")
+        }
         await authService.register({ name, username, password });
         res.redirect("/");
-    } catch (err) {
-        console.log(err.message)
+
+    } catch (errors) {
+        return res.render("register", { errors });
     }
 
     res.redirect("/login");
-})
+});
 
 module.exports = router;

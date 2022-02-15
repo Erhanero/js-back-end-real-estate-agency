@@ -6,6 +6,7 @@ const createController = require("./controllers/create");
 const housingController = require("./controllers/housing");
 const detailsController = require("./controllers/details");
 const editController = require("./controllers/edit");
+const searchController = require("./controllers/search");
 
 router.use(homeController);
 router.use(loginController);
@@ -14,6 +15,7 @@ router.use(createController);
 router.use(housingController);
 router.use(detailsController);
 router.use(editController);
+router.use(searchController);
 
 router.use("*", (req, res) => {
     res.render("404");
